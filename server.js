@@ -15,25 +15,30 @@ const PORT = process.env.PORT || 3500
 
 const server = http.createServer((req, res) => {
   let filePath
-  if (req.url === "/") {
-    res.writeHead(200, {
-      "Content-type": "text/html",
-    })
-    filePath = path.join(__dirname, "views", "index.html")
-    console.log("test", filePath)
-    fs.readFile(filePath, "utf8", (err, data) => {
-      res.end(data)
-    })
+
+  switch (req.url) {
+    case "/":
+      res.statusCode = 200
+      filePath = path.join(__dirname, "views", "index.html")
+      fs.readFile(filePath, "utf8", (err, data) => {
+        res.end(data)
+      })
+      break
+
+    // default:
+    //   break;
   }
-  // console.log("URL is", req.url, "METHOD is", req.method)
+
+  // if (req.url === "/") {
+  //   res.writeHead(200, {
+  //     "Content-type": "text/html",
+  //   })
+  //   filePath = path.join(__dirname, "views", "index.html")
+  //   console.log("test", filePath)
+  //   fs.readFile(filePath, "utf8", (err, data) => {
+  //     res.end(data)
+  //   })
+  // }
 })
 
 server.listen(PORT, () => console.log(`server running on port ${PORT}`))
-
-// //add emiter for events
-// emitter.on("log", (msg) => logEvents(msg))
-
-// setTimeout(() => {
-//   //Emit event
-//   emitter.emit("log", "Test event Emited!!!")
-// }, 2000)
